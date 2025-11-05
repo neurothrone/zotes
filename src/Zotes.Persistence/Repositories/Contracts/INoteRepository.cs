@@ -10,8 +10,8 @@ public interface INoteRepository
     );
 
     Task<NoteEntity?> GetAsync(
-        Guid userId,
         Guid noteId,
+        Guid userId,
         CancellationToken cancellationToken = default
     );
 
@@ -26,8 +26,8 @@ public interface INoteRepository
     );
 
     Task<bool> DeleteAsync(
-        Guid userId,
         Guid noteId,
+        Guid userId,
         CancellationToken cancellationToken = default
     );
 }

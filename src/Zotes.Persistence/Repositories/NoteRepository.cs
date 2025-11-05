@@ -16,7 +16,7 @@ public class NoteRepository(ZotesAppDbContext db) : INoteRepository
             .ToListAsync(cancellationToken);
     }
 
-    public Task<NoteEntity?> GetAsync(Guid userId, Guid noteId, CancellationToken cancellationToken = default)
+    public Task<NoteEntity?> GetAsync(Guid noteId, Guid userId, CancellationToken cancellationToken = default)
     {
         return db.Notes
             .AsNoTracking()
@@ -37,7 +37,7 @@ public class NoteRepository(ZotesAppDbContext db) : INoteRepository
         return result > 0;
     }
 
-    public async Task<bool> DeleteAsync(Guid userId, Guid noteId, CancellationToken cancellationToken = default)
+    public async Task<bool> DeleteAsync(Guid noteId, Guid userId, CancellationToken cancellationToken = default)
     {
         var existingNote =
             await db.Notes.FirstOrDefaultAsync(n => n.Id == noteId && n.UserId == userId, cancellationToken);
