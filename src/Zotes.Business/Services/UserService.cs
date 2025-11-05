@@ -16,33 +16,26 @@ public class UserService(UserManager<UserEntity> userManager) : IUserService
         if (existingUser is not null)
             return RegisterResult.Failure("Email is already registered");
 
-        var user = new UserEntity
-        {
-            UserName = request.Email,
-            Email = request.Email,
-            FirstName = request.FirstName,
-            LastName = request.LastName
-        };
-
-        var identityResult = await userManager.CreateAsync(user, request.Password);
+        var userEntity = request.ToEntity();
+        var identityResult = await userManager.CreateAsync(userEntity, request.Password);
         if (!identityResult.Succeeded)
         {
             var error = string.Join("; ", identityResult.Errors.Select(e => e.Description));
             return RegisterResult.Failure(error);
         }
 
-        return RegisterResult.Success(user.ToDto());
+        return RegisterResult.Success(userEntity.ToDto());
     }
 
     public async Task<UserDto?> ValidateCredentialsAsync(
         LoginRequest request,
         CancellationToken cancellationToken = default)
     {
-        var user = await userManager.FindByEmailAsync(request.Email);
-        if (user is null)
+        var userEntity = await userManager.FindByEmailAsync(request.Email);
+        if (userEntity is null)
             return null;
 
-        var ok = await userManager.CheckPasswordAsync(user, request.Password);
-        return ok ? user.ToDto() : null;
+        var isPasswordValid = await userManager.CheckPasswordAsync(userEntity, request.Password);
+        return isPasswordValid ? userEntity.ToDto() : null;
     }
 }

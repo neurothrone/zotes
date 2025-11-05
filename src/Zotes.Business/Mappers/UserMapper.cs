@@ -11,4 +11,12 @@ public static class UserMapper
         userEntity.FirstName,
         userEntity.LastName
     );
+
+    public static UserEntity ToEntity(this RegisterRequest request) => new()
+    {
+        UserName = request.Email,
+        Email = request.Email,
+        FirstName = request.FirstName,
+        LastName = request.LastName
+    };
 }
