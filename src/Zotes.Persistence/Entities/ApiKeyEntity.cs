@@ -4,15 +4,16 @@ namespace Zotes.Persistence.Entities;
 
 public class ApiKeyEntity
 {
-    public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid Id { get; init; } = Guid.NewGuid();
 
     [Required]
-    public string Key { get; set; } = string.Empty;
+    [MaxLength(64)]
+    public required string Key { get; init; }
 
-    public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
-    public DateTime? ExpiresAtUtc { get; set; }
+    public DateTime CreatedAtUtc { get; init; } = DateTime.UtcNow;
+    public DateTime? ExpiresAtUtc { get; init; }
 
-    public Guid UserId { get; set; }
+    public Guid UserId { get; init; }
 
     public bool IsExpired() => ExpiresAtUtc.HasValue && DateTime.UtcNow > ExpiresAtUtc.Value;
 }
