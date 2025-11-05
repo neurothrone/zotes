@@ -4,8 +4,11 @@ namespace Zotes.Api.Extensions;
 
 public static class WebApplicationExtensions
 {
-    public static void MapZotesEndpoints(this WebApplication app)
+    public static void ConfigureZotesMiddleware(this WebApplication app)
     {
+        app.UseAuthentication();
+        app.UseAuthorization();
+
         app.UseStaticFiles();
         app.MapGet("/", context =>
         {

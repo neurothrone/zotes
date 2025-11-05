@@ -13,7 +13,15 @@ namespace Zotes.Api.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddZotesDatabase(this IServiceCollection services)
+    public static void AddZotesServices(this IServiceCollection services)
+    {
+        services.AddZotesDatabase();
+        services.AddZotesIdentity();
+        services.AddZotesDependencies();
+        services.AddZotesSwagger();
+    }
+
+    private static void AddZotesDatabase(this IServiceCollection services)
     {
         services.AddDbContext<ZotesAppDbContext>(options =>
         {
@@ -34,7 +42,7 @@ public static class ServiceCollectionExtensions
         });
     }
 
-    public static void AddZotesIdentity(this IServiceCollection services)
+    private static void AddZotesIdentity(this IServiceCollection services)
     {
         services
             .AddIdentityCore<UserEntity>(options =>
@@ -55,7 +63,7 @@ public static class ServiceCollectionExtensions
     }
 
 
-    public static void AddZotesServices(this IServiceCollection services)
+    private static void AddZotesDependencies(this IServiceCollection services)
     {
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IApiKeyService, ApiKeyService>();
@@ -64,7 +72,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<INoteService, NoteService>();
     }
 
-    public static void AddZotesSwagger(this IServiceCollection services)
+    private static void AddZotesSwagger(this IServiceCollection services)
     {
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(options =>

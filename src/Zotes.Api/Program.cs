@@ -3,10 +3,7 @@ using Zotes.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddZotesDatabase();
-builder.Services.AddZotesIdentity();
 builder.Services.AddZotesServices();
-builder.Services.AddZotesSwagger();
 
 var app = builder.Build();
 
@@ -24,10 +21,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapZotesEndpoints();
+app.ConfigureZotesMiddleware();
 
 app.Run();
