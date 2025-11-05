@@ -1,0 +1,45 @@
+parameters:
+  - name: vmImageName
+    displayName: 'VM Image'
+    type: string
+    default: 'ubuntu-latest'
+    values:
+      - ubuntu-latest
+      - windows-latest
+      - macOS-latest
+  - name: dotnetVersion
+    displayName: '.NET SDK Version'
+    type: string
+    default: '9.x'
+
+trigger:
+  batch: true
+  branches:
+    include:
+      - main
+  #      - dev
+  #      - feature/*
+  paths:
+    exclude:
+      - .azure-pipelines/*
+      - .github/*
+      - assets
+      - docs
+    include:
+      - src/*
+      - infra/*
+
+pool:
+  vmImage: '${{ parameters.vmImageName }}'
+
+steps:
+  - task: UseDotNet@2
+    inputs:
+      packageType: 'sdk'
+      version: '${{ parameters.dotnetVersion }}'
+
+  - script: dotnet build
+    displayName: 'Build Project'
+
+  - script: dotnet test
+    displayName: 'Run Unit Tests'
