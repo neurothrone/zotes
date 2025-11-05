@@ -1,5 +1,4 @@
 using Zotes.Domain.Auth;
-using Zotes.Persistence.Entities;
 
 namespace Zotes.Business.Services.Contracts;
 
@@ -11,7 +10,7 @@ public interface IApiKeyService
         CancellationToken cancellationToken = default
     );
 
-    Task<UserEntity?> ValidateApiKeyAsync(
+    Task<UserDto?> ValidateApiKeyAsync(
         string apiKey,
         CancellationToken cancellationToken = default
     );

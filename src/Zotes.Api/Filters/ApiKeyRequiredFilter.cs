@@ -7,17 +7,15 @@ public class ApiKeyRequiredFilter : IEndpointFilter
     public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
     {
         var httpContext = context.HttpContext;
-        if (!httpContext.Request.Headers.TryGetValue("X-Api-Key", out var values))
-        {
+        if (!httpContext.Request.Headers.TryGetValue("X-Api-Key", out var stringValues))
             return Results.Unauthorized();
-        }
 
-        var apiKey = values.ToString();
+        var apiKey = stringValues.ToString();
         if (string.IsNullOrWhiteSpace(apiKey))
             return Results.Unauthorized();
 
-        var validator = httpContext.RequestServices.GetRequiredService<IApiKeyService>();
-        var user = await validator.ValidateApiKeyAsync(apiKey, httpContext.RequestAborted);
+        var service = httpContext.RequestServices.GetRequiredService<IApiKeyService>();
+        var user = await service.ValidateApiKeyAsync(apiKey, httpContext.RequestAborted);
         if (user is null)
             return Results.Unauthorized();
 

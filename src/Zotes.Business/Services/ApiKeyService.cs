@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+using Zotes.Business.Mappers;
 using Zotes.Business.Services.Contracts;
 using Zotes.Domain.Auth;
-using Zotes.Persistence.Data;
 using Zotes.Persistence.Entities;
+using Zotes.Persistence.Repositories.Contracts;
 
 namespace Zotes.Business.Services;
 
 public class ApiKeyService(
-    ZotesAppDbContext db,
+    IApiKeyRepository repository,
     UserManager<UserEntity> userManager
 ) : IApiKeyService
 {
@@ -21,25 +21,20 @@ public class ApiKeyService(
         var secondPart = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
         var key = $"{firstPart}.{secondPart}";
         DateTime? expires = lifetime.HasValue ? DateTime.UtcNow.Add(lifetime.Value) : null;
-        var apiKey = new ApiKeyEntity
-        {
-            Key = key,
-            UserId = userId,
-            ExpiresAtUtc = expires
-        };
-        db.ApiKeys.Add(apiKey);
-        await db.SaveChangesAsync(cancellationToken);
+
+        await repository.AddAsync(userId, key, expires, cancellationToken);
         return new ApiKeyResponse(key, expires);
     }
 
-    public async Task<UserEntity?> ValidateApiKeyAsync(
+    public async Task<UserDto?> ValidateApiKeyAsync(
         string apiKey,
         CancellationToken cancellationToken = default)
     {
-        var key = await db.ApiKeys.FirstOrDefaultAsync(k => k.Key == apiKey, cancellationToken);
-        if (key is null || key.IsExpired())
+        var apiKeyEntity = await repository.GetByKeyAsync(apiKey, cancellationToken);
+        if (apiKeyEntity is null || apiKeyEntity.IsExpired())
             return null;
 
-        return await userManager.FindByIdAsync(key.UserId.ToString());
+        var userEntity = await userManager.FindByIdAsync(apiKeyEntity.UserId.ToString());
+        return userEntity?.ToDto();
     }
 }

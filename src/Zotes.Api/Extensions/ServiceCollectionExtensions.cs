@@ -59,6 +59,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IApiKeyService, ApiKeyService>();
+        services.AddScoped<IApiKeyRepository, ApiKeyRepository>();
         services.AddScoped<INoteRepository, NoteRepository>();
         services.AddScoped<INoteService, NoteService>();
     }
