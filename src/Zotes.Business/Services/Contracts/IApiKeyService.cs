@@ -11,7 +11,7 @@ public interface IApiKeyService
         CancellationToken cancellationToken = default
     );
 
-    Task<User?> ValidateApiKeyAsync(
+    Task<UserEntity?> ValidateApiKeyAsync(
         string apiKey,
         CancellationToken cancellationToken = default
     );

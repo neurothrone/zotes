@@ -37,7 +37,7 @@ public static class ServiceCollectionExtensions
     public static void AddZotesIdentity(this IServiceCollection services)
     {
         services
-            .AddIdentityCore<User>(options =>
+            .AddIdentityCore<UserEntity>(options =>
             {
                 // Align configuration with the StrongPassword attribute
                 options.User.RequireUniqueEmail = true;

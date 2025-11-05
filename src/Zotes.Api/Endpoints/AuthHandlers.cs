@@ -10,15 +10,14 @@ public static class AuthHandlers
         IUserService service,
         HttpContext context)
     {
-        var (success, error, user) = await service.RegisterAsync(
+        var result = await service.RegisterAsync(
             request,
             context.RequestAborted
         );
-        if (!success || user is null)
-            return TypedResults.BadRequest(new { message = error ?? "Registration failed" });
+        if (!result.IsSuccess || result.User is null)
+            return TypedResults.BadRequest(new { message = result.Error ?? "Registration failed" });
 
-        var response = new LoginResponse(user.Id, user.Email ?? string.Empty, user.FirstName, user.LastName);
-        return Results.Created($"/auth/{user.Id}", response);
+        return Results.Created($"/auth/{result.User.Id}", result.User);
     }
 
     public static async Task<IResult> LoginAsync(

@@ -5,17 +5,17 @@ namespace Zotes.Business.Services.Contracts;
 
 public interface IUserService
 {
-    Task<(bool Success, string? Error, User? User)> RegisterAsync(
+    Task<RegisterResult> RegisterAsync(
         RegisterRequest request,
         CancellationToken cancellationToken = default
     );
 
-    Task<User?> ValidateCredentialsAsync(
+    Task<UserEntity?> ValidateCredentialsAsync(
         LoginRequest request,
         CancellationToken cancellationToken = default
     );
 
-    Task<User?> GetByIdAsync(
+    Task<UserEntity?> GetByIdAsync(
         Guid id,
         CancellationToken cancellationToken = default
     );

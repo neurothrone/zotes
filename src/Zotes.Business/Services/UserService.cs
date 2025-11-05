@@ -1,29 +1,22 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
+using Zotes.Business.Mappers;
 using Zotes.Business.Services.Contracts;
 using Zotes.Domain.Auth;
 using Zotes.Persistence.Entities;
 
 namespace Zotes.Business.Services;
 
-public class UserService(
-    UserManager<User> userManager,
-    ILogger<UserService> logger
-) : IUserService
+public class UserService(UserManager<UserEntity> userManager) : IUserService
 {
-    private readonly ILogger<UserService> _logger = logger;
-
-    public async Task<(bool Success, string? Error, User? User)> RegisterAsync(
+    public async Task<RegisterResult> RegisterAsync(
         RegisterRequest request,
         CancellationToken cancellationToken = default)
     {
-        var existing = await userManager.FindByEmailAsync(request.Email);
-        if (existing != null)
-        {
-            return (false, "Email is already registered", null);
-        }
+        var existingUser = await userManager.FindByEmailAsync(request.Email);
+        if (existingUser is not null)
+            return RegisterResult.Failure("Email is already registered");
 
-        var user = new User
+        var user = new UserEntity
         {
             UserName = request.Email,
             Email = request.Email,
@@ -31,17 +24,17 @@ public class UserService(
             LastName = request.LastName
         };
 
-        var result = await userManager.CreateAsync(user, request.Password);
-        if (!result.Succeeded)
+        var identityResult = await userManager.CreateAsync(user, request.Password);
+        if (!identityResult.Succeeded)
         {
-            var error = string.Join("; ", result.Errors.Select(e => e.Description));
-            return (false, error, null);
+            var error = string.Join("; ", identityResult.Errors.Select(e => e.Description));
+            return RegisterResult.Failure(error);
         }
 
-        return (true, null, user);
+        return RegisterResult.Success(user.ToDto());
     }
 
-    public async Task<User?> ValidateCredentialsAsync(
+    public async Task<UserEntity?> ValidateCredentialsAsync(
         LoginRequest request,
         CancellationToken cancellationToken = default)
     {
@@ -53,7 +46,7 @@ public class UserService(
         return ok ? user : null;
     }
 
-    public async Task<User?> GetByIdAsync(
+    public async Task<UserEntity?> GetByIdAsync(
         Guid id,
         CancellationToken cancellationToken = default)
     {

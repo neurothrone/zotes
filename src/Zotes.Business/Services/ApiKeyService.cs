@@ -9,7 +9,7 @@ namespace Zotes.Business.Services;
 
 public class ApiKeyService(
     ZotesAppDbContext db,
-    UserManager<User> userManager
+    UserManager<UserEntity> userManager
 ) : IApiKeyService
 {
     public async Task<ApiKeyResponse> IssueApiKeyAsync(
@@ -31,7 +31,7 @@ public class ApiKeyService(
         return new ApiKeyResponse(key, expires);
     }
 
-    public async Task<User?> ValidateApiKeyAsync(
+    public async Task<UserEntity?> ValidateApiKeyAsync(
         string apiKey,
         CancellationToken cancellationToken = default)
     {
