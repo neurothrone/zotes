@@ -12,6 +12,7 @@ public static class NoteEndpoints
         var group = app
             .MapGroup($"{ApiVersioning.RoutePrefix}/notes")
             .AddEndpointFilter<ApiKeyRequiredFilter>()
+            .AddEndpointFilter<ValidationFilter>()
             .WithTags("Notes");
 
         group.MapGet("", NoteHandlers.GetNotesAsync)

@@ -29,7 +29,7 @@ public class NoteService(INoteRepository repository) : INoteService
 
     public async Task<NoteDto> CreateAsync(
         Guid userId,
-        NoteCreateRequest request,
+        NoteInputRequest request,
         CancellationToken cancellationToken = default)
     {
         var entity = await repository.AddAsync(
@@ -47,7 +47,7 @@ public class NoteService(INoteRepository repository) : INoteService
     public async Task<bool> UpdateAsync(
         Guid noteId,
         Guid userId,
-        NoteUpdateRequest request,
+        NoteInputRequest request,
         CancellationToken cancellationToken = default)
     {
         var existingNote = await repository.GetAsync(noteId, userId, cancellationToken);

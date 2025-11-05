@@ -34,7 +34,7 @@ public static class NoteHandlers
     }
 
     public static async Task<IResult> CreateNoteAsync(
-        NoteCreateRequest request,
+        NoteInputRequest request,
         INoteService service,
         HttpContext context)
     {
@@ -48,7 +48,7 @@ public static class NoteHandlers
 
     public static async Task<IResult> UpdateNoteAsync(
         Guid id,
-        NoteUpdateRequest request,
+        NoteInputRequest request,
         INoteService service,
         HttpContext context)
     {
