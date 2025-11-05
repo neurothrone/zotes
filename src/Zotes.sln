@@ -2,6 +2,12 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zotes.Api", "Zotes.Api\Zotes.Api.csproj", "{C2DDE5F1-650D-4DAC-A8D2-87A936EB9977}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zotes.Domain", "Zotes.Domain\Zotes.Domain.csproj", "{DBB6C92E-F620-4263-B43F-E529DA1B86AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zotes.Business", "Zotes.Business\Zotes.Business.csproj", "{CA76FE31-95ED-4055-92A1-8449A207DCE2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zotes.Persistence", "Zotes.Persistence\Zotes.Persistence.csproj", "{39CBEBEB-563D-48EC-9E61-CCC7422B6773}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +18,17 @@ Global
 		{C2DDE5F1-650D-4DAC-A8D2-87A936EB9977}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2DDE5F1-650D-4DAC-A8D2-87A936EB9977}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2DDE5F1-650D-4DAC-A8D2-87A936EB9977}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBB6C92E-F620-4263-B43F-E529DA1B86AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBB6C92E-F620-4263-B43F-E529DA1B86AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBB6C92E-F620-4263-B43F-E529DA1B86AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBB6C92E-F620-4263-B43F-E529DA1B86AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA76FE31-95ED-4055-92A1-8449A207DCE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA76FE31-95ED-4055-92A1-8449A207DCE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA76FE31-95ED-4055-92A1-8449A207DCE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA76FE31-95ED-4055-92A1-8449A207DCE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39CBEBEB-563D-48EC-9E61-CCC7422B6773}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39CBEBEB-563D-48EC-9E61-CCC7422B6773}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39CBEBEB-563D-48EC-9E61-CCC7422B6773}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39CBEBEB-563D-48EC-9E61-CCC7422B6773}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
