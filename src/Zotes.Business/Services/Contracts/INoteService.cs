@@ -17,16 +17,14 @@ public interface INoteService
 
     Task<NoteDto> CreateAsync(
         Guid userId,
-        string title,
-        string? content,
+        NoteCreateRequest request,
         CancellationToken cancellationToken = default
     );
 
     Task<bool> UpdateAsync(
         Guid noteId,
         Guid userId,
-        string title,
-        string? content,
+        NoteUpdateRequest request,
         CancellationToken cancellationToken = default
     );
 

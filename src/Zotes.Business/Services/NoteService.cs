@@ -29,16 +29,15 @@ public class NoteService(INoteRepository repository) : INoteService
 
     public async Task<NoteDto> CreateAsync(
         Guid userId,
-        string title,
-        string? content,
+        NoteCreateRequest request,
         CancellationToken cancellationToken = default)
     {
         var entity = await repository.AddAsync(
             new NoteEntity
             {
                 UserId = userId,
-                Title = title,
-                Content = content
+                Title = request.Title,
+                Content = request.Content,
             },
             cancellationToken
         );
@@ -48,18 +47,17 @@ public class NoteService(INoteRepository repository) : INoteService
     public async Task<bool> UpdateAsync(
         Guid noteId,
         Guid userId,
-        string title,
-        string? content,
+        NoteUpdateRequest request,
         CancellationToken cancellationToken = default)
     {
         var existingNote = await repository.GetAsync(noteId, userId, cancellationToken);
-        if (existingNote is null) 
+        if (existingNote is null)
             return false;
-        
-        existingNote.Title = title;
-        existingNote.Content = content;
+
+        existingNote.Title = request.Title;
+        existingNote.Content = request.Content;
         existingNote.UpdatedAtUtc = DateTime.UtcNow;
-        
+
         return await repository.UpdateAsync(existingNote, cancellationToken);
     }
 

@@ -5,9 +5,8 @@ namespace Zotes.Business.Mappers;
 
 public static class NoteMapper
 {
-    public static NoteDto ToDto(this NoteEntity entity) => new NoteDto(
+    public static NoteDto ToDto(this NoteEntity entity) => new(
         entity.Id,
-        entity.UserId,
         entity.Title,
         entity.Content,
         entity.CreatedAtUtc,

@@ -1,8 +1,7 @@
 namespace Zotes.Domain.Notes;
 
 public record NoteDto(
-    Guid NoteId,
-    Guid UserId,
+    Guid Id,
     string Title,
     string? Content,
     DateTime CreatedAtUtc,
