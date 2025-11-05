@@ -12,10 +12,10 @@ public static class NoteHandlers
     {
         var userId = context.GetCurrentUserId();
         if (userId == Guid.Empty)
-            return Results.Unauthorized();
+            return TypedResults.Unauthorized();
 
         var notes = await service.GetAllAsync(userId, context.RequestAborted);
-        return Results.Ok(notes);
+        return TypedResults.Ok(notes);
     }
 
     public static async Task<IResult> GetNoteAsync(
@@ -25,11 +25,11 @@ public static class NoteHandlers
     {
         var userId = context.GetCurrentUserId();
         if (userId == Guid.Empty)
-            return Results.Unauthorized();
+            return TypedResults.Unauthorized();
 
         var note = await service.GetAsync(id, userId, context.RequestAborted);
         return note is null
-            ? Results.NotFound()
+            ? TypedResults.NotFound()
             : TypedResults.Ok(note);
     }
 
@@ -40,10 +40,10 @@ public static class NoteHandlers
     {
         var userId = context.GetCurrentUserId();
         if (userId == Guid.Empty)
-            return Results.Unauthorized();
+            return TypedResults.Unauthorized();
 
         var note = await service.CreateAsync(userId, request, context.RequestAborted);
-        return Results.Created($"/notes/{note.Id}", note);
+        return TypedResults.Created($"/notes/{note.Id}", note);
     }
 
     public static async Task<IResult> UpdateNoteAsync(
@@ -54,10 +54,10 @@ public static class NoteHandlers
     {
         var userId = context.GetCurrentUserId();
         if (userId == Guid.Empty)
-            return Results.Unauthorized();
+            return TypedResults.Unauthorized();
 
-        var ok = await service.UpdateAsync(id, userId, request, context.RequestAborted);
-        return ok ? Results.NoContent() : Results.NotFound();
+        var updated = await service.UpdateAsync(id, userId, request, context.RequestAborted);
+        return updated ? TypedResults.NoContent() : TypedResults.NotFound();
     }
 
     public static async Task<IResult> DeleteNoteAsync(
@@ -67,9 +67,9 @@ public static class NoteHandlers
     {
         var userId = context.GetCurrentUserId();
         if (userId == Guid.Empty)
-            return Results.Unauthorized();
+            return TypedResults.Unauthorized();
 
-        var ok = await service.DeleteAsync(id, userId, context.RequestAborted);
-        return ok ? Results.NoContent() : Results.NotFound();
+        var deleted = await service.DeleteAsync(id, userId, context.RequestAborted);
+        return deleted ? TypedResults.NoContent() : TypedResults.NotFound();
     }
 }

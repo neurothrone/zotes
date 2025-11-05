@@ -17,7 +17,7 @@ public static class AuthHandlers
         if (!result.IsSuccess || result.User is null)
             return TypedResults.BadRequest(new { message = result.Error ?? "Registration failed" });
 
-        return Results.Created($"/auth/{result.User.Id}", result.User);
+        return TypedResults.Created($"/auth/{result.User.Id}", result.User);
     }
 
     public static async Task<IResult> LoginAsync(
@@ -26,7 +26,9 @@ public static class AuthHandlers
         HttpContext context)
     {
         var user = await service.ValidateCredentialsAsync(request, context.RequestAborted);
-        return user is null ? Results.Unauthorized() : Results.Ok(user);
+        return user is null 
+            ? TypedResults.Unauthorized() 
+            : TypedResults.Ok(user);
     }
 
     public static async Task<IResult> IssueApiKeyAsync(
@@ -37,9 +39,9 @@ public static class AuthHandlers
     {
         var user = await userService.ValidateCredentialsAsync(request, context.RequestAborted);
         if (user is null)
-            return Results.Unauthorized();
+            return TypedResults.Unauthorized();
 
         var response = await apiService.IssueApiKeyAsync(user.Id, TimeSpan.FromDays(30), context.RequestAborted);
-        return Results.Ok(response);
+        return TypedResults.Ok(response);
     }
 }
