@@ -1,3 +1,4 @@
+using Zotes.Api.Config;
 using Zotes.Business.Services.Contracts;
 
 namespace Zotes.Api.Filters;
@@ -7,7 +8,7 @@ public class ApiKeyRequiredFilter : IEndpointFilter
     public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
     {
         var httpContext = context.HttpContext;
-        if (!httpContext.Request.Headers.TryGetValue("X-Api-Key", out var stringValues))
+        if (!httpContext.Request.Headers.TryGetValue(ApiHeaders.ApiKeyHeaderName, out var stringValues))
             return Results.Unauthorized();
 
         var apiKey = stringValues.ToString();

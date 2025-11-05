@@ -80,8 +80,8 @@ public static class ServiceCollectionExtensions
             // API key header definition
             options.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
             {
-                Description = "Provide your API key in the X-Api-Key header",
-                Name = "X-Api-Key",
+                Description = $"Provide your API key in the {ApiHeaders.ApiKeyHeaderName} header",
+                Name = ApiHeaders.ApiKeyHeaderName,
                 In = ParameterLocation.Header,
                 Type = SecuritySchemeType.ApiKey,
                 Scheme = "ApiKeyScheme"
