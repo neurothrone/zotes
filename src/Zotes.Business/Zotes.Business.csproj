@@ -6,4 +6,9 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Zotes.Domain\Zotes.Domain.csproj" />
+      <ProjectReference Include="..\Zotes.Persistence\Zotes.Persistence.csproj" />
+    </ItemGroup>
+
 </Project>

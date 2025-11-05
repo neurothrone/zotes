@@ -12,6 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Zotes.Business\Zotes.Business.csproj" />
       <ProjectReference Include="..\Zotes.Persistence\Zotes.Persistence.csproj" />
     </ItemGroup>
 
