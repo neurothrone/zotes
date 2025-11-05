@@ -26,11 +26,7 @@ public static class AuthHandlers
         HttpContext context)
     {
         var user = await service.ValidateCredentialsAsync(request, context.RequestAborted);
-        if (user is null)
-            return Results.Unauthorized();
-
-        var resp = new LoginResponse(user.Id, user.Email ?? string.Empty, user.FirstName, user.LastName);
-        return Results.Ok(resp);
+        return user is null ? Results.Unauthorized() : Results.Ok(user);
     }
 
     public static async Task<IResult> IssueApiKeyAsync(

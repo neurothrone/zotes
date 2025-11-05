@@ -34,7 +34,7 @@ public class UserService(UserManager<UserEntity> userManager) : IUserService
         return RegisterResult.Success(user.ToDto());
     }
 
-    public async Task<UserEntity?> ValidateCredentialsAsync(
+    public async Task<UserDto?> ValidateCredentialsAsync(
         LoginRequest request,
         CancellationToken cancellationToken = default)
     {
@@ -43,13 +43,6 @@ public class UserService(UserManager<UserEntity> userManager) : IUserService
             return null;
 
         var ok = await userManager.CheckPasswordAsync(user, request.Password);
-        return ok ? user : null;
-    }
-
-    public async Task<UserEntity?> GetByIdAsync(
-        Guid id,
-        CancellationToken cancellationToken = default)
-    {
-        return await userManager.FindByIdAsync(id.ToString());
+        return ok ? user.ToDto() : null;
     }
 }

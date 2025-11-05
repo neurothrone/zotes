@@ -1,5 +1,4 @@
 using Zotes.Domain.Auth;
-using Zotes.Persistence.Entities;
 
 namespace Zotes.Business.Services.Contracts;
 
@@ -10,13 +9,8 @@ public interface IUserService
         CancellationToken cancellationToken = default
     );
 
-    Task<UserEntity?> ValidateCredentialsAsync(
+    Task<UserDto?> ValidateCredentialsAsync(
         LoginRequest request,
-        CancellationToken cancellationToken = default
-    );
-
-    Task<UserEntity?> GetByIdAsync(
-        Guid id,
         CancellationToken cancellationToken = default
     );
 }
