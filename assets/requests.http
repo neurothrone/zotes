@@ -1,6 +1,88 @@
-@apiUrl = https://localhost:7001
+@apiUrl = https://localhost:7001/api/v1
+@contentType = application/json
 
 
-# Get Weather Forecast
-GET {{apiUrl}}/weatherforecast/
-Accept: application/json
+### Register
+POST {{apiUrl}}/auth/register
+Content-Type: {{contentType}}
+
+{
+  "email": "john.doe@example.com",
+  "password": "P@ssw0rdA",
+  "firstName": "John",
+  "lastName": "Doe"
+}
+
+### Login
+POST {{apiUrl}}/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "john.doe@example.com",
+  "password": "P@ssw0rdA"
+}
+
+### Issue API Key (use login credentials)
+POST {{apiUrl}}/auth/api-keys
+Content-Type: {{contentType}}
+
+{
+  "email": "john.doe@example.com",
+  "password": "P@ssw0rdA"
+}
+
+> {%
+    client.test("Issue API Key Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+
+    // Extract and store the access token
+    if (response.body.apiKey) {
+        client.global.set("apiKey", response.body.apiKey);
+        console.log("API Key stored: " + response.body.apiKey);
+    }
+%}
+
+### Get all Notes (protected)
+GET {{apiUrl}}/notes
+X-Api-Key: {{apiKey}}
+
+### Create a Note (protected)
+POST {{apiUrl}}/notes
+Content-Type: {{contentType}}
+X-Api-Key: {{apiKey}}
+
+{
+  "title": "My first note",
+  "content": "Hello world"
+}
+
+> {%
+    client.test("Create Note Request executed successfully", function () {
+        client.assert(response.status === 201, "Response status is not 201");
+    });
+
+    // Extract and store the access token
+    if (response.body.id) {
+        client.global.set("noteId", response.body.id);
+        console.log("Note ID stored: " + response.body.id);
+    }
+%}
+
+### Get Note by ID (protected)
+GET {{apiUrl}}/notes/{{noteId}}
+X-Api-Key: {{apiKey}}
+
+### Update Note by ID (protected)
+PUT {{apiUrl}}/notes/{{noteId}}
+Content-Type: {{contentType}}
+X-Api-Key: {{apiKey}}
+
+{
+  "title": "Updated title",
+  "content": "Updated content"
+}
+
+### Delete Note by ID (protected)
+DELETE {{apiUrl}}/notes/{{noteId}}
+X-Api-Key: {{apiKey}}
