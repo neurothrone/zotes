@@ -17,8 +17,9 @@ public class ApiKeyService(
         TimeSpan? lifetime = null,
         CancellationToken cancellationToken = default)
     {
-        var key = Convert.ToBase64String(Guid.NewGuid().ToByteArray()) + "." +
-                  Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+        var firstPart = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+        var secondPart = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+        var key = $"{firstPart}.{secondPart}";
         DateTime? expires = lifetime.HasValue ? DateTime.UtcNow.Add(lifetime.Value) : null;
         var apiKey = new ApiKeyEntity
         {
