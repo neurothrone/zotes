@@ -34,7 +34,7 @@ dotnet run --project src/Zotes.Api --launch-profile https
 
 If you use JetBrains Rider, Visual Studio or VS Code REST Client, you can run the prepared requests:
 
-- Open `assets/requests.http`
+- Open [assets/requests.http](assets/requests.http) in your editor
 - Execute requests top to bottom:
     - Register
     - Login
